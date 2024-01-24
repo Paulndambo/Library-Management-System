@@ -1,3 +1,6 @@
+from datetime import datetime
+from decimal import Decimal
+
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 
@@ -90,8 +93,13 @@ def transactions(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
+    members = Member.objects.all()
+    books = Book.objects.all()
+
     context = {
-        "page_obj": page_obj
+        "page_obj": page_obj,
+        "members": members,
+        "books": books
     }
     return render(request, "transactions/transactions.html", context)
 
@@ -120,6 +128,21 @@ def new_transaction(request):
         return redirect("transactions")
 
     return render(request, "transactions/new_transaction.html")
+
+
+def return_book(request):
+    if request.method == "POST":
+        transaction_id = request.POST.get("transaction_id")
+        return_free = Decimal(request.POST.get("return_fee"))
+
+        pass
+
+    return render(request, "transactions/return_book.html")
+
+
+def refresh_book_issue(request, book_issue_id):
+    book_issue = BookIssue.objects.get(id=book_issue_id)
+
 
 
 

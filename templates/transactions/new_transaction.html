@@ -1,0 +1,123 @@
+<div class="modal fade" id="newTransactionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center">Issue A Book</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'new-transaction' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+              
+                  <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Member</label>
+                      <select class="form-select" id="member_id" name="member_id" onchange="getMemberDebt()">
+                        <option></option>
+                        {% for member in members %}
+                            <option value="{{member.id}}">{{member.name}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Author</label>
+                        <select class="form-select" id="book_id" name="book_id" onchange="getBookRate()">
+                            <option></option>
+                            {% for book in books %}
+                                <option value="{{book.id}}">{{book.title}}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label for="exampleInputPassword1" class="form-label">Borrow From</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="borrowed_from"
+                        name="borrowed_from"
+                        required
+                      />
+                    </div>
+                    <div class="col">
+                        <label for="exampleInputPassword1" class="form-label">Borrow to</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          id="borrowed_to"
+                          name="borrowed_to"
+                          required
+                        />
+                      </div>
+                  </div>
+                       
+                <div class="text-center mt-2">
+                  <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+function getCSRFToken() {
+    const csrfCookie = document.cookie.split(';').find(cookie => cookie.trim().startsWith('csrftoken='));
+    if (csrfCookie) {
+        return csrfCookie.split('=')[1];
+    }
+    return null;
+}
+const getMemberDebt = async() => {
+    var selectedOption = document.getElementById("member_id");
+    var selectedValue = selectedOption.value;
+    //var selectedText = selectedOption.options[selectedOption.selectedIndex].text;
+
+    console.log(`Selected ID: ${selectedValue}`)
+    let headersList = {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        'X-CSRFToken': getCSRFToken(),
+    }
+
+    let response = await fetch(`/users/member-debt/?member_id=${selectedValue}`, { 
+        method: "GET",
+        headers: headersList
+    });
+
+    const data = await response.json()
+    console.log(data)
+    sessionStorage.setItem("member_debt", JSON.stringify(data.debt))
+}
+
+
+const getBookRate = async() => {
+    var selectedOption = document.getElementById("book_id");
+    var bookValue = selectedOption.value;
+    //var selectedText = selectedOption.options[selectedOption.selectedIndex].text;
+
+    console.log(`Selected ID: ${bookValue}`)
+    let headersList = {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        'X-CSRFToken': getCSRFToken(),
+    }
+
+    let response = await fetch(`/library/book-rate/?book_id=${bookValue}`, { 
+        method: "GET",
+        headers: headersList
+    });
+
+    const data = await response.json()
+
+    console.log(data)
+    sessionStorage.setItem("book_rate", JSON.stringify(data.rental_fee))
+}
+
+const calculateTotal = async() => {
+
+        // Update the total amount display
+        document.getElementById('totalAmount').innerText = totalAmount;
+    }
+
+</script>

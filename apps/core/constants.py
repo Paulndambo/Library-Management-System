@@ -24,3 +24,8 @@ BOOK_ISSUE_STATUS = (
     ("Overdue", "Overdue"),
     ("Active", "Active"),
 )
+
+PAYMENT_TYPES = (
+    ("Book Issue", "Book Issue"),
+    ("Return Fee", "Return Fee"),
+)
