@@ -99,7 +99,17 @@ def delete_book(request):
 
 @login_required(login_url="/users/login/")
 def issued_books(request):
-    issued_books = BookIssue.objects.all()
+    issued_books = BookIssue.objects.all().order_by("-created")
+
+    if request.method == "POST":
+        search_text = request.POST.get("search_text")
+
+        issued_books = BookIssue.objects.filter(
+            Q(book__title__icontains=search_text) | 
+            Q(book__author__icontains=search_text) | 
+            Q(member__name__icontains=search_text) |
+            Q(member__id_number__icontains=search_text)
+        ).order_by("-created")
 
     paginator = Paginator(issued_books, 10)
     page_number = request.GET.get("page")

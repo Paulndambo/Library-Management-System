@@ -1,11 +1,11 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from apps.core.constants import GENDER_CHOICES, ROLE_CHOICES
 
+from apps.core.constants import GENDER_CHOICES, ROLE_CHOICES
 from apps.core.models import AbstractBaseModel
+
 
 # Create your models here.
 class User(AbstractUser, AbstractBaseModel):

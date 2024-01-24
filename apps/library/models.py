@@ -26,7 +26,7 @@ class Book(AbstractBaseModel):
 
 class BookIssue(AbstractBaseModel):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    member = models.ForeignKey("users.Member", on_delete=models.SET_NULL, null=True)
+    member = models.ForeignKey("users.Member", on_delete=models.SET_NULL, null=True, related_name="memberissuedbooks")
     borrowed_from = models.DateField()
     borrowed_to = models.DateField()
     status = models.CharField(max_length=255, choices=BOOK_ISSUE_STATUS)

@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <p>Name: {{member.name}}</p>
+        <p>Phone Number: {{member.phone_number}}</p>
+    </div>
+    <div class="col">
+        <p>Email: {{member.email}}</p>
+        <p>Address: {{member.address}}, {{member.city}}-{{member.country}}</p>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col">
+        <h3>Books Issued</h3>
+    </div>
+    <div class="col">
+        <h3>Total Debt: {{member.outstanding_debt}}</h3>
+    </div>
+</div>
+
+<hr/>
+<div class="table-responsive small">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Book</th>
+          <th scope="col">From</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Return Fee</th>
+          <th scope="col">Status</th>
+          <th scope="col" colspan="1">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for issued_book in page_obj %}
+        <tr>
+          <td>{{issued_book.id}}</td>
+          <td>{{issued_book.book}}</td>
+          <td>{{issued_book.borrowed_from}}</td>
+          <td>{{issued_book.borrowed_to}}</td>
+          <td>{{issued_book.overdue_fee}}</td>
+          <td>{{issued_book.status}}</td>
+          {% if issued_book.status == "Returned" %}
+          <td><a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteBookIssueModal{{ issued_book.id }}">
+            <i class="bi bi-trash"></i>
+          </a></td>
+          {% else %}
+          <td><a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#returnBookModal{{ issued_book.id }}">
+            <i class="bi bi-arrow-left-square"></i>
+          </a></td>
+          
+         
+          {% endif %}
+          
+        {% include "issued_books/delete_book_issue.html" %}
+        {% include "issued_books/return_book.html" %}
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+    <div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          {% if page_obj.has_previous %}   
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+          {% endif %}
+          <a class="page-link" href="#">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a>
+          {% if page_obj.has_next %}    
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+          {% endif %}   
+        </ul>
+      </nav>
+    </div>
+  </div>
+{% endblock content %}

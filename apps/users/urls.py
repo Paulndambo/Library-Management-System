@@ -1,8 +1,8 @@
 from django.urls import path
 
 from apps.users.apis.views import MemberDebtAPIView
-from apps.users.views import (delete_member, edit_member, members, new_member,
-                              user_login, user_logout)
+from apps.users.views import (delete_member, edit_member, member_details,
+                              members, new_member, user_login, user_logout)
 
 urlpatterns = [
     # User Authentication URLS
@@ -11,6 +11,7 @@ urlpatterns = [
 
     ## Members URLS
     path("members/", members, name="members"),
+    path("<int:member_id>/", member_details, name="member-details"),
     path("new-member/", new_member, name="new-member"),
     path("edit-member/", edit_member, name="edit-member"),
     path("delete-member/", delete_member, name="delete-member"),

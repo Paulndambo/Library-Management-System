@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import redirect, render
 
 from apps.users.models import Member
@@ -30,6 +31,12 @@ def user_logout(request):
 def members(request):
     members = Member.objects.all().order_by("-created")
 
+    if request.method == "POST":
+        search_text = request.POST.get("search_text")
+        members = Member.objects.filter(
+            Q(name__icontains=search_text) | Q(id_number__icontains=search_text)
+        ).order_by("-created")
+
     paginator = Paginator(members, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
@@ -39,6 +46,21 @@ def members(request):
     }
     return render(request, "members/members.html", context)
 
+
+def member_details(request, member_id=None):
+    member = Member.objects.get(id=member_id)
+
+    books_issued = member.memberissuedbooks.all()
+    paginator = Paginator(books_issued, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "member": member,
+        "page_obj": page_obj
+    }
+
+    return render(request, "members/member_details.html", context)
 
 def new_member(request):
     if request.method == "POST":
