@@ -18,8 +18,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
 
-            
-            return redirect('home') 
+            return redirect('home')
     return render(request, 'accounts/login.html')
 
 
@@ -28,13 +27,15 @@ def user_logout(request):
     return redirect('login')
 
 
+@login_required(login_url="/users/login/")
 def members(request):
     members = Member.objects.all().order_by("-created")
 
     if request.method == "POST":
         search_text = request.POST.get("search_text")
         members = Member.objects.filter(
-            Q(name__icontains=search_text) | Q(id_number__icontains=search_text)
+            Q(name__icontains=search_text) | Q(
+                id_number__icontains=search_text)
         ).order_by("-created")
 
     paginator = Paginator(members, 10)
@@ -47,6 +48,7 @@ def members(request):
     return render(request, "members/members.html", context)
 
 
+@login_required(login_url="/users/login/")
 def member_details(request, member_id=None):
     member = Member.objects.get(id=member_id)
 
@@ -62,6 +64,8 @@ def member_details(request, member_id=None):
 
     return render(request, "members/member_details.html", context)
 
+
+@login_required(login_url="/users/login/")
 def new_member(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -90,7 +94,7 @@ def new_member(request):
     return render(request, "members/new_member.html")
 
 
-
+@login_required(login_url="/users/login/")
 def edit_member(request):
     if request.method == "POST":
         member_id = request.POST.get("member_id")
@@ -120,6 +124,8 @@ def edit_member(request):
 
     return render(request, "members/edit_member.html")
 
+
+@login_required(login_url="/users/login/")
 def delete_member(request):
     if request.method == "POST":
         member_id = request.POST.get("member_id")
