@@ -1,6 +1,6 @@
 <div
   class="modal fade"
-  id="returnBookModal{{transaction.id}}"
+  id="returnBookModal{{issued_book.id}}"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
   aria-hidden="true"
@@ -31,9 +31,9 @@
               <input
                 type="number"
                 class="form-control"
-                name="transaction_id"
-                id="transaction_id"
-                value="{{transaction.id}}"
+                name="issued_book_id"
+                id="issued_book_id"
+                value="{{issued_book.id}}"
                 readonly
                 required
               />
@@ -64,7 +64,7 @@
                 class="form-control"
                 id="return_fee"
                 name="return_fee"
-                value="{{transaction.overdue_fee}}"
+                value="{{issued_book.overdue_fee}}"
                 readonly
                 required
               />

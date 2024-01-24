@@ -1,9 +1,9 @@
 from django.urls import path
 
 from apps.library.apis.views import BookRateAPIView
-from apps.library.views import (books, delete_book, delete_transaction,
-                                edit_book, new_book, new_transaction,
-                                return_book, transactions)
+from apps.library.views import (books, delete_book, delete_book_issue,
+                                edit_book, issued_books, new_book,
+                                new_book_issue, return_book)
 
 urlpatterns = [
     path("books/", books, name="books"),
@@ -13,8 +13,8 @@ urlpatterns = [
     path("book-rate/", BookRateAPIView.as_view(), name="book-rate"),
 
     # Transactions URLS
-    path("transactions/", transactions, name="transactions"),
-    path("new-transaction/", new_transaction, name="new-transaction"),
-    path("delete-transaction/", delete_transaction, name="delete-transaction"),
+    path("issued-books/", issued_books, name="issued-books"),
+    path("new-book-issue/", new_book_issue, name="new-book-issue"),
+    path("delete-book-issue/", delete_book_issue, name="delete-book-issue"),
     path("return-book/", return_book, name="return-book"),
 ]

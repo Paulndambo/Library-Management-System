@@ -86,10 +86,10 @@ def delete_book(request):
 
 
 
-def transactions(request):
-    transactions = BookIssue.objects.all()
+def issued_books(request):
+    issued_books = BookIssue.objects.all()
 
-    paginator = Paginator(transactions, 10)
+    paginator = Paginator(issued_books, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -101,10 +101,10 @@ def transactions(request):
         "members": members,
         "books": books
     }
-    return render(request, "transactions/transactions.html", context)
+    return render(request, "issued_books/issued_books.html", context)
 
 
-def new_transaction(request):
+def new_book_issue(request):
     if request.method == "POST":
         book_id = request.POST.get("book_id")
         member_id = request.POST.get("member_id")
@@ -125,19 +125,19 @@ def new_transaction(request):
             overdue_fee=0
         )
 
-        return redirect("transactions")
+        return redirect("issued-books")
 
-    return render(request, "transactions/new_transaction.html")
+    return render(request, "issued_books/new_book_issue.html")
 
 
 def return_book(request):
     if request.method == "POST":
-        transaction_id = request.POST.get("transaction_id")
-        return_free = Decimal(request.POST.get("return_fee"))
+        issued_id = request.POST.get("issued_book_id")
+        return_fee = Decimal(request.POST.get("return_fee"))
 
         pass
 
-    return render(request, "transactions/return_book.html")
+    return render(request, "issued_books/return_book.html")
 
 
 def refresh_book_issue(request, book_issue_id):
@@ -146,12 +146,12 @@ def refresh_book_issue(request, book_issue_id):
 
 
 
-def delete_transaction(request):
+def delete_book_issue(request):
     if request.method == "POST":
-        transaction_id = request.POST.get("transaction_id")
-        transaction = BookIssue.objects.get(id=transaction_id)
-        transaction.delete()
+        issued_book_id = request.POST.get("issued_book_id")
+        issued_book = BookIssue.objects.get(id=issued_book_id)
+        issued_book.delete()
 
-        return redirect("transactions")
+        return redirect("issued-books")
 
-    return render(request, "transactions/delete_transaction.html")
+    return render(request, "issued_books/delete_book_issue.html")
