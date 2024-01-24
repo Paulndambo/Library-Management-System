@@ -6,6 +6,22 @@
         <h3>Books</h3>
     </div>
     <div class="col">
+      <form method="POST">
+        {% csrf_token %}
+        
+          <div class="row">
+            <div class="col-8">
+              <input type="text" class="form-control" name="search_text" id="search_text" placeholder="Title/Author ...">
+            </div>
+            <div class="col-4">
+              <button class="btn btn-info btn-sm">Search</button>
+            </div>
+          </div>
+          
+     
+      </form>
+    </div>
+    <div class="col">
         <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newBookModal">New Book</a>
 
     </div>

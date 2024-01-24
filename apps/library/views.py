@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import redirect, render
 
 from apps.library.models import Book, BookIssue
@@ -15,6 +16,11 @@ from apps.users.models import Member
 @login_required(login_url="/users/login/")
 def books(request):
     books = Book.objects.all().order_by("-created")
+
+    if request.method == "POST":
+        search_text = request.POST.get("search_text")
+        books = Book.objects.filter(Q(title__icontains=search_text) | Q(author__icontains=search_text)).order_by("-created")
+
 
     paginator = Paginator(books, 10)
     page_number = request.GET.get("page")
@@ -172,14 +178,14 @@ def return_book(request):
         issued_book.status = "Returned"
         issued_book.save()
 
-        if return_fee >= 0.0 or return_fee > 0:
-            Transaction.objects.create(
-                book=issued_book.book,
-                paid_by=issued_book.member,
-                amount_paid=return_fee,
-                payment_type="Return Fee",
-                received_by=user
-            )
+        
+        Transaction.objects.create(
+            book=issued_book.book,
+            paid_by=issued_book.member,
+            amount_paid=return_fee,
+            payment_type="Return Fee",
+            received_by=user
+        )
         return redirect("issued-books")
     return render(request, "issued_books/return_book.html")
 
