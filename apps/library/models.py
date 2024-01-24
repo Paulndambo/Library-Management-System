@@ -1,0 +1,33 @@
+from django.db import models
+from apps.core.models import AbstractBaseModel
+from apps.core.constants import BOOK_GENRES, BOOK_ISSUE_STATUS
+
+
+# Create your models here.
+class Book(AbstractBaseModel):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    year_published = models.CharField(max_length=255)
+    genre = models.CharField(max_length=255, choices=BOOK_GENRES)
+    price = models.DecimalField(max_digits=100, decimal_places=2)
+    rental_fee = models.DecimalField(max_digits=20, decimal_places=2)
+
+    def __str__(self):
+        return self.title
+
+
+class BookIssue(AbstractBaseModel):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    member = models.ForeignKey("users.Member", on_delete=models.SET_NULL, null=True)
+    borrowed_from = models.DateField()
+    borrowed_to = models.DateField()
+    status = models.CharField(max_length=255, choices=BOOK_ISSUE_STATUS)
+    return_fee = models.DecimalField(max_digits=100, decimal_places=2)
+    overdue_fee = models.DecimalField(max_digits=100, decimal_places=2, default=0)
+    
+    def __str__(self):
+        return f"{self.member.name} has been issued with {self.book.title}"
+
+    @property
+    def total_fee_expected(self):
+        return self.return_fee + self.overdue_fee
