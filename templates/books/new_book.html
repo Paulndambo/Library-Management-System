@@ -1,0 +1,102 @@
+<div class="modal fade" id="newBookModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center">Add New Book</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="{% url 'new-book' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+              
+                  <div class="mb-3">
+                      <label for="exampleInputPassword1" class="form-label">Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        name="title"
+                        required
+                      />
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Author</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="author"
+                          name="author"
+                          required
+                        />
+                      </div>
+                
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label for="exampleInputPassword1" class="form-label">Year Published</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="year_published"
+                        name="year_published"
+                        required
+                      />
+                    </div>
+                    <div class="col">
+                      <label for="exampleInputPassword1" class="form-label">Genre</label>
+                      <select class="form-select" name="genre" id="genre">
+                        <option value="Geography">Geography</option>
+                        <option value="History">History</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Science">Science</option>
+                        <option value="Geology">Geology</option>
+                      </select>
+                    </div>
+                  </div>
+                  
+
+                  <div class="row mb-3">
+                    <div class="col">
+                        <label for="exampleInputPassword1" class="form-label">Price</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="price"
+                          name="price"
+                          required
+                        />
+                      </div>
+                      <div class="col">
+                        <label for="exampleInputPassword1" class="form-label">Rental Fee</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="rental_fee"
+                          name="rental_fee"
+                          required
+                        />
+                      </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <div class="col">
+                        <label for="exampleInputPassword1" class="form-label">Quantity</label>
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="quantity"
+                          name="quantity"
+                          required
+                        />
+                      </div>
+                  </div>
+         
+                <div class="text-center mt-2">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>

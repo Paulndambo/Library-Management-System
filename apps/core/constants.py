@@ -15,6 +15,8 @@ BOOK_GENRES = (
     ("Technology", "Technology"),
     ("History", "History"),
     ("Geography", "Geography"),
+    ("Science", "Science"),
+    ("Geology", "Geology"),
 )
 
 BOOK_ISSUE_STATUS = (

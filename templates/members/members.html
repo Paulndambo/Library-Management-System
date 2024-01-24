@@ -6,7 +6,7 @@
         <h3>Members</h3>
     </div>
     <div class="col">
-        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newNurseModal">Add Member</a>
+        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newMemberModal">Add Member</a>
 
     </div>
 
@@ -22,7 +22,7 @@
               <th scope="col">Phone</th>
               <th scope="col">Gender</th>
               <th scope="col">Address</th>
-              <th scope="col" colspan="2">Actions</th>
+              <th scope="col" colspan="3">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -37,13 +37,11 @@
               <td>
                 <a href="#" class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
               </td>
-              <td><a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#scheduleNurseModal{{member.id}}">
-               Schedule
-              </a></td>
-              <td><a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editEmployeeModal{{ member.id }}">
+              
+              <td><a class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editMemberModal{{ member.id }}">
                 <i class="bi bi-pencil-square"></i>
               </a></td>
-              <td><a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteEmployeeModal{{ member.id }}">
+              <td><a class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteMemberModal{{ member.id }}">
                 <i class="bi bi-trash"></i>
               </a></td>
               
