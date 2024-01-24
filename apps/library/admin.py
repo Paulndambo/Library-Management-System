@@ -6,7 +6,7 @@ from apps.library.models import Book, BookIssue
 # Register your models here.
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ["id", "title", "quantity", "rental_fee"]
+    list_display = ["id", "title", "quantity", "rental_fee", "available", "available_books"]
 
 @admin.register(BookIssue)
 class BookIssueAdmin(admin.ModelAdmin):

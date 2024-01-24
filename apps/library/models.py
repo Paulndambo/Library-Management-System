@@ -14,6 +14,7 @@ class Book(AbstractBaseModel):
     rental_fee = models.DecimalField(max_digits=20, decimal_places=2)
     quantity = models.IntegerField(default=0)
     rented_out = models.IntegerField(default=0)
+    available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title

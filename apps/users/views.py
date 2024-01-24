@@ -28,7 +28,7 @@ def user_logout(request):
 
 
 def members(request):
-    members = Member.objects.all()
+    members = Member.objects.all().order_by("-created")
 
     paginator = Paginator(members, 10)
     page_number = request.GET.get("page")

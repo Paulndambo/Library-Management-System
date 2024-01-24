@@ -6,7 +6,7 @@ from apps.payments.models import Transaction
 
 # Create your views here.
 def payments(request):
-    transactions = Transaction.objects.all()
+    transactions = Transaction.objects.all().order_by("-created")
 
 
     paginator = Paginator(transactions, 13)
