@@ -19,7 +19,10 @@ def books(request):
 
     if request.method == "POST":
         search_text = request.POST.get("search_text")
-        books = Book.objects.filter(Q(title__icontains=search_text) | Q(author__icontains=search_text)).order_by("-created")
+        books = Book.objects.filter(
+            Q(title__icontains=search_text) | 
+            Q(author__icontains=search_text)
+        ).order_by("-created")
 
 
     paginator = Paginator(books, 10)
@@ -115,8 +118,13 @@ def issued_books(request):
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
-    members = Member.objects.all()
-    books = Book.objects.all()
+    """
+    => Making sure that;-
+        1. Only members with outstanding debt below 500 can be given books.
+        2. Only books not fully rented out are available to be issued
+    """
+    members = Member.objects.filter(outstanding_debt__lte=500.0)
+    books = Book.objects.filter(available=True)
 
     context = {
         "page_obj": page_obj,
