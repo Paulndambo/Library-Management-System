@@ -1,10 +1,6 @@
 # LIBRARY MANAGEMENT WEB APPLICATION
+- This is a simple web based library management system built using django
 
-## The web applictaion has been built using Django
-
-### Assumptions
-1. It is assumed that when a book is issued there is a flat rate charge upon the issue period
-2. It is assumed that when the agreed book issue period is exceeded, the member is charged 15% of the book issue fee per day
 
 ### Hosted Version
 - The web application has a version hosted on python anywhere which can be accessed here <link>https://paulndambo.pythonanywhere.com/</link>
