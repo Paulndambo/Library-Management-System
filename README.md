@@ -23,6 +23,9 @@ Note:
 
 ``git clone https://github.com/Paulndambo/Library-Management-System.git``
 
+## Running Tests
+``python manage.py test``
+
 ### 1. Running Locally
 - After cloning, 
 - Install python from here if you don't have it <link>https://www.python.org/downloads/</link>
