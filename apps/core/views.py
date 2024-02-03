@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -31,7 +32,7 @@ def home(request):
         for overdue_book_issue in overdue_book_issues:
             days_passed = (date_today - overdue_book_issue.borrowed_to).days
 
-            return_fee = (overdue_book_issue.return_fee * 0.15) * days_passed
+            return_fee = (overdue_book_issue.return_fee * (15/100)) * days_passed
             overdue_book_issue.return_fee = return_fee
             overdue_book_issue.save()
 
