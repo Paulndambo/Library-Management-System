@@ -44,21 +44,22 @@ class MemberTestCase(TestCase):
     def test_member_debt_is_float(self):
         self.assertIsInstance(self.member.outstanding_debt, float)
 
-    def test_member_can_be_created(self):
-        member = Member.objects.create(
-            name="John Doe",
-            email="johndoe@gmail.com",
-            phone_number="0745491093",
-            id_number="123456789",
-            gender="Male",
-            address="228-90119",
-            city="Machakos",
-            county="Machakos",
-            country="Kenya",
-            outstanding_debt=100.0
-        )
+    def test_member_creation(self):
+        data = {
+            "name": "Jane Doe II",
+            "email": "janedoe@gmail.com",
+            "phone_number": "+254745491093",
+            "id_number": "56789GHJKJAHA",
+            "gender": "Female",
+            "address": "59-90119",
+            "city": "Matuu",
+            "county": "Machakos",
+            "country": "Kenya",
+            "outstanding": 250.0
+        }
 
-        self.assertEqual(str(member), "John Doe")
+        response = self.client.post(reverse("new-member"), data)
+        self.assertEqual(response.status_code, 302)
 
     def test_member_editing(self):
         data = {
@@ -75,4 +76,12 @@ class MemberTestCase(TestCase):
             "outstanding": 250.0
         }
         response = self.client.post(reverse('edit-member'), data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_member_can_be_deleted(self):
+        data = {
+            "member_id": self.member.id
+        }
+
+        response = self.client.post(reverse("delete-member"), data=data)
         self.assertEqual(response.status_code, 302)

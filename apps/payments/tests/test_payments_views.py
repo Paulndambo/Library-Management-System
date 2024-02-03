@@ -9,7 +9,6 @@ from apps.users.models import Member, User
 
 class PaymentsViewTestCase(TestCase):
     def setUp(self):
-        # Create a test user
         self.user = User.objects.create(
             first_name="James",
             last_name="Doe",
@@ -50,14 +49,12 @@ class PaymentsViewTestCase(TestCase):
             available=True
         )
 
-        # Create a test client
+
         self.client = Client()
 
-        # Log in the test user
         self.client.login(username='jamesdoe', password='1234')
 
     def test_payments_view_with_transactions(self):
-        # Create some test transactions
         Transaction.objects.create(
             paid_by=self.member, 
             book=self.book,
@@ -80,37 +77,30 @@ class PaymentsViewTestCase(TestCase):
             received_by=self.user
         )
         
-        # Perform a GET request to the view
         response = self.client.get(reverse('payments'))
 
-        # Check if the response is successful
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'payments/payments.html')
 
-        # Check if the transactions are present in the context
         self.assertIn('page_obj', response.context)
         page_obj = response.context['page_obj']
         self.assertEqual(page_obj.object_list.count(0), 0)
 
+
     def test_payments_view_without_transactions(self):
-        # Perform a GET request to the view when there are no transactions
         response = self.client.get(reverse('payments'))
 
-        # Check if the response is successful
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'payments/payments.html')
 
-        # Check if the transactions are not present in the context
         self.assertIn('page_obj', response.context)
         page_obj = response.context['page_obj']
         self.assertEqual(page_obj.object_list.count(), 0)
 
+
     def test_payments_view_requires_login(self):
-        # Log out the user
         self.client.logout()
 
-        # Perform a GET request to the view when not logged in
         response = self.client.get(reverse('payments'))
 
-        # Check if the response is a redirect to the login page
         self.assertRedirects(response, '/users/login/?next=' + reverse('payments'))
