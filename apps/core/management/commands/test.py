@@ -6,7 +6,7 @@ class Command(BaseCommand):
     help = "Running tests for specific test modules"
 
     def handle(self, *args, **options):
-        test_modules = ["apps/users/tests"]
+        test_modules = ["apps/payments/tests"]
 
         test_runner = DiscoverRunner(verbosity=2)
 
